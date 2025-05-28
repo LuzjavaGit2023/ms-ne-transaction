@@ -1,5 +1,6 @@
 package pe.com.app.transaction.common.mapper;
 
+import java.time.LocalDateTime;
 import pe.com.app.transaction.common.config.Currency;
 import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
@@ -11,24 +12,22 @@ import pe.com.app.transaction.controller.response.TransactionDataResponse;
 import pe.com.app.transaction.controller.response.TransactionResponse;
 import pe.com.app.transaction.model.persistence.TransactionEntity;
 
-import java.time.LocalDateTime;
-
 public class TransactionMapper {
 
-    public static TransactionEntity buildTransactionEntityNew(PaymentRequest request, TransactionType type){
-        return buildTransactionEntityBaseActive( request.getServiceId(), request.getAmount(), request.getCurrency(), type);
+    public static TransactionEntity buildTransactionEntityNew(PaymentRequest req, TransactionType type) {
+        return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), req.getCurrency(), type);
     }
 
-    public static TransactionEntity buildTransactionEntityNew(ConsumptionRequest request, TransactionType type){
-        return buildTransactionEntityBaseActive( request.getServiceId(), request.getAmount(), request.getCurrency(), type);
+    public static TransactionEntity buildTransactionEntityNew(ConsumptionRequest req, TransactionType type) {
+        return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), req.getCurrency(), type);
     }
 
-    public static TransactionEntity buildTransactionEntityNew(DepositRequest request, TransactionType type){
-        return buildTransactionEntityBaseActive( request.getServiceId(), request.getAmount(), request.getCurrency(), type);
+    public static TransactionEntity buildTransactionEntityNew(DepositRequest req, TransactionType type) {
+        return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), req.getCurrency(), type);
     }
 
-    public static TransactionEntity buildTransactionEntityNew(WithdrawalRequest request, TransactionType type){
-        return buildTransactionEntityBaseActive( request.getServiceId(), request.getAmount(), request.getCurrency(), type);
+    public static TransactionEntity buildTransactionEntityNew(WithdrawalRequest req, TransactionType type) {
+        return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), req.getCurrency(), type);
     }
 
     private static TransactionEntity buildTransactionEntityBaseActive(

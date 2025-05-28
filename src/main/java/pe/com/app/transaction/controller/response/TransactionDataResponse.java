@@ -1,5 +1,7 @@
 package pe.com.app.transaction.controller.response;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,9 +9,6 @@ import lombok.NoArgsConstructor;
 import pe.com.app.transaction.common.config.Currency;
 import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <b>class</b>: TransactionDataResponse <br/>

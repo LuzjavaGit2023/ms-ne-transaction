@@ -1,12 +1,11 @@
 package pe.com.app.transaction.controller.request;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pe.com.app.transaction.common.config.Currency;
-
-import java.io.Serializable;
 
 /**
  * <b>class</b>: ConsumptionRequest <br/>

@@ -1,5 +1,7 @@
 package pe.com.app.transaction.model.persistence;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import pe.com.app.transaction.common.config.Currency;
 import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
