@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.com.app.transaction.advice.ErrorResponse;
+import pe.com.app.transaction.controller.request.CommissionRequest;
 import pe.com.app.transaction.controller.request.ConsumptionRequest;
 import pe.com.app.transaction.controller.request.DepositRequest;
 import pe.com.app.transaction.controller.request.PaymentRequest;
@@ -45,6 +46,27 @@ import reactor.core.publisher.Mono;
 public class TransactionController {
 
     private final TransactionService service;
+
+    /**
+     * This method is used to create a Commission to an Account element.
+     *
+     * @return CommissionResponse Mono.
+     */
+    @PostMapping("/{serviceId}/commission")
+    @Operation(summary = "This method is used to create a Commission to an Account element.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+    })
+    public Mono<TransactionResponse> saveCommission(@PathVariable String serviceId,
+                                                    @RequestBody CommissionRequest request) {
+        return service.saveCommission(serviceId, request);
+    }
 
     /**
      * This method is used to create a Withdrawal to an Account element.
@@ -148,4 +170,43 @@ public class TransactionController {
         return service.getTransactionsByServiceId(serviceId);
     }
 
+    /**
+     * This method is used to get all transactions.
+     *
+     * @return AccountResponse Mono.
+     */
+    @GetMapping
+    @Operation(summary = "This method is used to get all transactions.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+    })
+    public Flux<TransactionDataResponse> getTransactionsAll() {
+        return service.getTransactionsAll();
+    }
+
+    /**
+     * This method is used to get all Commission transactions.
+     *
+     * @return AccountResponse Mono.
+     */
+    @GetMapping("/commission")
+    @Operation(summary = "This method is used to get all Commission transactions.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+    })
+    public Flux<TransactionDataResponse> getAllCommission() {
+        return service.getAllCommission();
+    }
 }

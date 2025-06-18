@@ -1,5 +1,6 @@
 package pe.com.app.transaction.service;
 
+import pe.com.app.transaction.controller.request.CommissionRequest;
 import pe.com.app.transaction.controller.request.ConsumptionRequest;
 import pe.com.app.transaction.controller.request.DepositRequest;
 import pe.com.app.transaction.controller.request.PaymentRequest;
@@ -24,6 +25,7 @@ import reactor.core.publisher.Mono;
  * </ul>
  */
 public interface TransactionService {
+    Mono<TransactionResponse> saveCommission(String serviceId, CommissionRequest request);
     Mono<TransactionResponse> saveWithdrawal(String serviceId, WithdrawalRequest request);
 
     Mono<TransactionResponse> savePayment(String serviceId, PaymentRequest request);
@@ -33,4 +35,7 @@ public interface TransactionService {
     Mono<TransactionResponse> saveDeposit(String serviceId, DepositRequest request);
 
     Flux<TransactionDataResponse> getTransactionsByServiceId(String serviceId);
+    Flux<TransactionDataResponse> getTransactionsAll();
+    Flux<TransactionDataResponse> getAllCommission();
+
 }

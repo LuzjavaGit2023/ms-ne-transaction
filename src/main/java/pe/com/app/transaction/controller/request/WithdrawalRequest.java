@@ -31,4 +31,5 @@ public class WithdrawalRequest implements Serializable {
     private Double amount;
     private Currency currency; // Moneda (USD, PEN, EUR, etc.)
 
+    private String entityClient;
 }

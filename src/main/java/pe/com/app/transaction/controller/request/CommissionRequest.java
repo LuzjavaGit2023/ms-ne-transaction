@@ -1,18 +1,15 @@
-package pe.com.app.transaction.controller.response;
+package pe.com.app.transaction.controller.request;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pe.com.app.transaction.common.config.Currency;
 import pe.com.app.transaction.common.config.TransactionOrigin;
-import pe.com.app.transaction.common.config.TransactionStatus;
-import pe.com.app.transaction.common.config.TransactionType;
 
 /**
- * <b>class</b>: TransactionDataResponse <br/>
+ * <b>class</b>: CommissionRequest <br/>
  * <b>Copyright</b>: 2025 Tu Banco - Celula <br/>
  * .
  *
@@ -29,18 +26,13 @@ import pe.com.app.transaction.common.config.TransactionType;
 @NoArgsConstructor
 @Data
 @Builder
-public class TransactionDataResponse implements Serializable {
-    private static final long serialVersionUID = -7793454769985670924L;
-    private String id;
+public class CommissionRequest implements Serializable {
+    private static final long serialVersionUID = -8829448764407282414L;
     private String serviceId;
     private Double amount;
     private Currency currency; // Moneda (USD, PEN, EUR, etc.)
 
     private String entityClient;
 
-    private TransactionType type;
     private TransactionOrigin origin;
-    private TransactionStatus status;
-
-    private LocalDateTime transactionDate;
 }

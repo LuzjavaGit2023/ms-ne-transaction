@@ -3,16 +3,13 @@ package pe.com.app.transaction.common.config;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum TransactionType {
-    Withdrawal("Withdrawal"),
-    Deposit("Deposit"),
-    Payment("Payment"),
-    Consumption("Consumption"),
-    Commission("Commission");
+public enum TransactionOrigin {
+    ACCOUNT("ACCOUNT"),
+    CREDIT("CREDIT");
 
     private final String description;
 
-    TransactionType(String description) {
+    TransactionOrigin(String description) {
         this.description = description;
     }
 
@@ -21,8 +18,8 @@ public enum TransactionType {
     }
 
     @JsonCreator
-    public static TransactionType fromString(String value) {
-        return value != null ? TransactionType.valueOf(value) : null;
+    public static TransactionOrigin fromString(String value) {
+        return value != null ? TransactionOrigin.valueOf(value) : null;
     }
 
     @JsonValue

@@ -3,8 +3,10 @@ package pe.com.app.transaction.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pe.com.app.transaction.common.config.TransactionOrigin;
 import pe.com.app.transaction.common.config.TransactionType;
 import pe.com.app.transaction.common.mapper.TransactionMapper;
+import pe.com.app.transaction.controller.request.CommissionRequest;
 import pe.com.app.transaction.controller.request.ConsumptionRequest;
 import pe.com.app.transaction.controller.request.DepositRequest;
 import pe.com.app.transaction.controller.request.PaymentRequest;
@@ -37,10 +39,28 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
+    public Mono<TransactionResponse> saveCommission(String serviceId, CommissionRequest request) {
+        log.info("saveCommission : execute, service {}, request {}", serviceId, request);
+        request.setServiceId(serviceId);
+        return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Commission))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(request.getOrigin());
+                    return Mono.just(transactionEntity);
+                })
+                .flatMap(transactionEntity -> repository.save(transactionEntity))
+                .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
+                .log();
+    }
+
+    @Override
     public Mono<TransactionResponse> saveWithdrawal(String serviceId, WithdrawalRequest request) {
         log.info("saveWithdrawal : execute, service {}, request {}", serviceId, request);
         request.setServiceId(serviceId);
         return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Withdrawal))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(TransactionOrigin.ACCOUNT);
+                    return Mono.just(transactionEntity);
+                })
                 .flatMap(transactionEntity -> repository.save(transactionEntity))
                 .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
                 .log();
@@ -51,6 +71,10 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("savePayment : execute, service {}, request {}", serviceId, request);
         request.setServiceId(serviceId);
         return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Payment))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(TransactionOrigin.CREDIT);
+                    return Mono.just(transactionEntity);
+                })
                 .flatMap(transactionEntity -> repository.save(transactionEntity))
                 .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
                 .log();
@@ -61,6 +85,10 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("saveConsumption : execute, service {}, request {}", serviceId, request);
         request.setServiceId(serviceId);
         return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Consumption))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(TransactionOrigin.CREDIT);
+                    return Mono.just(transactionEntity);
+                })
                 .flatMap(transactionEntity -> repository.save(transactionEntity))
                 .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
                 .log();
@@ -71,6 +99,10 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("saveDeposit : execute, service {}, request {}", serviceId, request);
         request.setServiceId(serviceId);
         return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Deposit))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(TransactionOrigin.ACCOUNT);
+                    return Mono.just(transactionEntity);
+                })
                 .flatMap(transactionEntity -> repository.save(transactionEntity))
                 .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
                 .log();
@@ -82,5 +114,19 @@ public class TransactionServiceImpl implements TransactionService {
         return repository.findByServiceId(serviceId)
                 .map(transactionEntity -> TransactionMapper.buildTransactionDataResponse(transactionEntity))
                 .log();
+    }
+
+    @Override
+    public Flux<TransactionDataResponse> getTransactionsAll() {
+        log.info("getTransactionsAll : execute");
+        return repository.findAll()
+                .map(transactionEntity -> TransactionMapper.buildTransactionDataResponse(transactionEntity));
+    }
+
+    @Override
+    public Flux<TransactionDataResponse> getAllCommission() {
+        log.info("getAllCommission : execute");
+        return repository.findByType(TransactionType.Commission)
+                .map(transactionEntity -> TransactionMapper.buildTransactionDataResponse(transactionEntity));
     }
 }

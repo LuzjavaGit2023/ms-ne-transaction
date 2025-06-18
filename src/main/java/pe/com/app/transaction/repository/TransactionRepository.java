@@ -1,6 +1,7 @@
 package pe.com.app.transaction.repository;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import pe.com.app.transaction.common.config.TransactionType;
 import pe.com.app.transaction.model.persistence.TransactionEntity;
 import reactor.core.publisher.Flux;
 
@@ -21,4 +22,5 @@ import reactor.core.publisher.Flux;
 public interface TransactionRepository extends ReactiveMongoRepository<TransactionEntity, String> {
 
     Flux<TransactionEntity> findByServiceId(String clientId);
+    Flux<TransactionEntity> findByType(TransactionType type);
 }

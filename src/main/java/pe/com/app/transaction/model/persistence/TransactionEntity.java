@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import pe.com.app.transaction.common.config.Currency;
+import pe.com.app.transaction.common.config.TransactionOrigin;
 import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
 
@@ -26,7 +27,10 @@ public class TransactionEntity implements Serializable {
     private Double amount;
     private Currency currency; // Moneda (USD, PEN, EUR, etc.)
 
+    private String entityClient;
+
     private TransactionType type;
+    private TransactionOrigin origin;
     private TransactionStatus status;
 
     private LocalDateTime transactionDate;
