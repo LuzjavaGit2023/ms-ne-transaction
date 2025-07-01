@@ -14,11 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.com.app.transaction.advice.ErrorResponse;
-import pe.com.app.transaction.controller.request.CommissionRequest;
-import pe.com.app.transaction.controller.request.ConsumptionRequest;
-import pe.com.app.transaction.controller.request.DepositRequest;
-import pe.com.app.transaction.controller.request.PaymentRequest;
-import pe.com.app.transaction.controller.request.WithdrawalRequest;
+import pe.com.app.transaction.controller.request.*;
 import pe.com.app.transaction.controller.response.TransactionDataResponse;
 import pe.com.app.transaction.controller.response.TransactionResponse;
 import pe.com.app.transaction.service.TransactionService;
@@ -148,6 +144,27 @@ public class TransactionController {
     })
     public Mono<TransactionResponse> saveDeposit(@PathVariable String serviceId, @RequestBody DepositRequest request) {
         return service.saveDeposit(serviceId, request);
+    }
+
+    /**
+     * This method is used to save a Trx Electronic Money to an Account element.
+     *
+     * @return DepositResponse Mono.
+     */
+    @PostMapping("/{serviceId}/electronic-money")
+    @Operation(summary = "This method is used to save a Trx Electronic Money to an Account element.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+    })
+    public Mono<TransactionResponse> saveStartedTrxElectronicMoney(@PathVariable String serviceId,
+                                                                   @RequestBody TransactionElectronicMoneyRequest request) {
+        return service.saveTransactionElectronicMoney(serviceId, request);
     }
 
     /**

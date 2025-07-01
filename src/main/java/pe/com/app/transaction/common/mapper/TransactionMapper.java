@@ -4,11 +4,7 @@ import java.time.LocalDateTime;
 import pe.com.app.transaction.common.config.Currency;
 import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
-import pe.com.app.transaction.controller.request.CommissionRequest;
-import pe.com.app.transaction.controller.request.ConsumptionRequest;
-import pe.com.app.transaction.controller.request.DepositRequest;
-import pe.com.app.transaction.controller.request.PaymentRequest;
-import pe.com.app.transaction.controller.request.WithdrawalRequest;
+import pe.com.app.transaction.controller.request.*;
 import pe.com.app.transaction.controller.response.TransactionDataResponse;
 import pe.com.app.transaction.controller.response.TransactionResponse;
 import pe.com.app.transaction.model.persistence.TransactionEntity;
@@ -37,6 +33,11 @@ public class TransactionMapper {
     public static TransactionEntity buildTransactionEntityNew(WithdrawalRequest req, TransactionType type) {
         return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), req.getCurrency(), type
                 , req.getEntityClient());
+    }
+
+    public static TransactionEntity buildTransactionEntityNew(TransactionElectronicMoneyRequest req, TransactionType type) {
+        return buildTransactionEntityBaseActive(req.getServiceId(), req.getAmount(), Currency.BOOTCOIN, type
+                , "Start transaction");
     }
 
     private static TransactionEntity buildTransactionEntityBaseActive(
@@ -86,4 +87,5 @@ public class TransactionMapper {
                 .origin(trx.getOrigin())
                 .build();
     }
+
 }

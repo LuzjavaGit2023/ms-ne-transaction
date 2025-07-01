@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TransactionOrigin {
     ACCOUNT("ACCOUNT"),
-    CREDIT("CREDIT");
+    CREDIT("CREDIT"),
+    ELECTRONIC_MONEY("ELECTRONIC_MONEY");
 
     private final String description;
 

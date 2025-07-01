@@ -8,7 +8,8 @@ public enum TransactionType {
     Deposit("Deposit"),
     Payment("Payment"),
     Consumption("Consumption"),
-    Commission("Commission");
+    Commission("Commission"),
+    P2P("P2P");
 
     private final String description;
 

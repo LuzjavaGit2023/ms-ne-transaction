@@ -1,10 +1,6 @@
 package pe.com.app.transaction.service;
 
-import pe.com.app.transaction.controller.request.CommissionRequest;
-import pe.com.app.transaction.controller.request.ConsumptionRequest;
-import pe.com.app.transaction.controller.request.DepositRequest;
-import pe.com.app.transaction.controller.request.PaymentRequest;
-import pe.com.app.transaction.controller.request.WithdrawalRequest;
+import pe.com.app.transaction.controller.request.*;
 import pe.com.app.transaction.controller.response.TransactionDataResponse;
 import pe.com.app.transaction.controller.response.TransactionResponse;
 import reactor.core.publisher.Flux;
@@ -33,6 +29,8 @@ public interface TransactionService {
     Mono<TransactionResponse> saveConsumption(String serviceId, ConsumptionRequest request);
 
     Mono<TransactionResponse> saveDeposit(String serviceId, DepositRequest request);
+
+    Mono<TransactionResponse> saveTransactionElectronicMoney(String serviceId, TransactionElectronicMoneyRequest request);
 
     Flux<TransactionDataResponse> getTransactionsByServiceId(String serviceId);
     Flux<TransactionDataResponse> getTransactionsAll();

@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pe.com.app.transaction.common.config.TransactionOrigin;
+import pe.com.app.transaction.common.config.TransactionStatus;
 import pe.com.app.transaction.common.config.TransactionType;
 import pe.com.app.transaction.common.mapper.TransactionMapper;
-import pe.com.app.transaction.controller.request.CommissionRequest;
-import pe.com.app.transaction.controller.request.ConsumptionRequest;
-import pe.com.app.transaction.controller.request.DepositRequest;
-import pe.com.app.transaction.controller.request.PaymentRequest;
-import pe.com.app.transaction.controller.request.WithdrawalRequest;
+import pe.com.app.transaction.controller.request.*;
 import pe.com.app.transaction.controller.response.TransactionDataResponse;
 import pe.com.app.transaction.controller.response.TransactionResponse;
 import pe.com.app.transaction.repository.TransactionRepository;
@@ -101,6 +98,21 @@ public class TransactionServiceImpl implements TransactionService {
         return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.Deposit))
                 .flatMap(transactionEntity -> {
                     transactionEntity.setOrigin(TransactionOrigin.ACCOUNT);
+                    return Mono.just(transactionEntity);
+                })
+                .flatMap(transactionEntity -> repository.save(transactionEntity))
+                .map(transactionEntity -> TransactionMapper.buildWithdrawalResponse(transactionEntity))
+                .log();
+    }
+
+    @Override
+    public Mono<TransactionResponse> saveTransactionElectronicMoney(String serviceId, TransactionElectronicMoneyRequest request) {
+        log.info("saveTransactionElectronicMoney : execute, service {}, request {}", serviceId, request);
+        request.setServiceId(serviceId);
+        return Mono.just(TransactionMapper.buildTransactionEntityNew(request, TransactionType.P2P))
+                .flatMap(transactionEntity -> {
+                    transactionEntity.setOrigin(TransactionOrigin.ELECTRONIC_MONEY);
+                    transactionEntity.setStatus(TransactionStatus.OFFERED);
                     return Mono.just(transactionEntity);
                 })
                 .flatMap(transactionEntity -> repository.save(transactionEntity))

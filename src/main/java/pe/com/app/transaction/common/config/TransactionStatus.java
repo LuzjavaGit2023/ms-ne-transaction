@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TransactionStatus {
     ACTIVE("ACTIVE"),
+    OFFERED("OFFERED"),
     INACTIVE("INACTVIE");
 
     private final String description;
